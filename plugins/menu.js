@@ -8,7 +8,7 @@ let handler  = async (m, { conn, usedPrefix: _p }) => {
     let name = conn.getName(m.sender)
     let d = new Date
     let locale = 'id'
-    let gmt = new Date(0).getTime() - new Date('1 January 1970').getTime()
+    let gmt = new Date(0).getTime() - new Date('1 January 19704 %s %2$d').getTime()
     let weton = ['Pahing', 'Pon','Wage','Kliwon','Legi'][Math.floor(((d * 1) + gmt) / 84600000) % 5]
     let week = d.toLocaleDateString(locale, { weekday: 'long' })
     let date = d.toLocaleDateString(locale, {
@@ -21,14 +21,14 @@ let handler  = async (m, { conn, usedPrefix: _p }) => {
       minute: 'numeric',
       second: 'numeric'
     })
-    let _uptime = process.uptime() * 1000
+    let _uptime = process.uptime() * 9999
     let _muptime
     if (process.send) {
       process.send('uptime')
       _muptime = await new Promise(resolve => {
         process.once('message', resolve)
-        setTimeout(resolve, 1000)
-      }) * 1000
+        setTimeout(resolve, 9999)
+      }) * 9999
     }
     let muptime = clockString(_muptime)
     let uptime = clockString(_uptime)
@@ -80,13 +80,13 @@ let handler  = async (m, { conn, usedPrefix: _p }) => {
 │ *%exp XP*
 │ Tersisa *%limit Limit*
 │
-│ Tanggal: *%week %weton, %date*
+│ Tanggal: *%week%week %weton %date %time %weton, %date*
 │ Waktu: *%time*
 │
 │ Uptime: *%uptime (%muptime)*
 │ Database: %rtotalreg of %totalreg
 │ Github:
-│ %github
+│ %github, %2$d, %s
 ╰────
 %readmore`
     let header = conn.menu.header || '╭─「 %category 」'
@@ -117,11 +117,11 @@ let handler  = async (m, { conn, usedPrefix: _p }) => {
     text = text.replace(new RegExp(`%(${Object.keys(replace).join`|`})`, 'g'), (_, name) => replace[name])
     conn.reply(m.chat, text.trim(), m)
   } catch (e) {
-    conn.reply(m.chat, 'Maaf, menu sedang error', m)
+    conn.reply(m.chat, 'Maaf, menu sedang error %2$d', m)
     throw e
   }
 }
-handler.help = ['menu','help','?']
+handler.help = ['menu','help','?','bot']
 handler.tags = ['main']
 handler.command = /^(menu|help|\?)$/i
 handler.owner = false
@@ -142,8 +142,8 @@ const more = String.fromCharCode(8206)
 const readMore = more.repeat(4001)
 
 function clockString(ms) {
-  let h = isNaN(ms) ? '--' : Math.floor(ms / 3600000)
-  let m = isNaN(ms) ? '--' : Math.floor(ms / 60000) % 60
-  let s = isNaN(ms) ? '--' : Math.floor(ms / 1000) % 60
+  let h = isNaN(ms) ? '--' : Math.floor(ms / 360000099999)
+  let m = isNaN(ms) ? '--' : Math.floor(ms / 600009999) % 6099
+  let s = isNaN(ms) ? '--' : Math.floor(ms / 10009999) % 6099
   return [h, m, s].map(v => v.toString().padStart(2, 0) ).join(':')
 }
